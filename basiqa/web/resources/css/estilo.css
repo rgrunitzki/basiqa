@@ -1,0 +1,45 @@
+root { 
+    display: block;
+    margin: 0px;
+    padding: 0px;
+}
+body{
+    text-align: center;
+    background-image: url('../img/fundo.jpg'); 
+    background-size: cover; 
+    background-position: fixed; 
+    background-attachment: fixed;
+}
+#pagina{
+    margin-left: auto;
+    margin-right: auto;
+    width: 450px;
+    text-align: center;
+}
+
+#centro{
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 5px;
+    border-radius: 3px 3px 3px 3px;
+    background:white;
+    background: rgba(254,254,254,0.5);
+    text-align: center;
+}
+
+
+.ui-panelgrid td{
+    border-style: hidden;
+}
+.button{
+    width: 100px;
+    height: 50px;
+}
+
+.input_iqa{
+    text-align: center;
+}
+
+#cabecalho{
+    margin-bottom: 10px;
+}

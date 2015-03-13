@@ -1,0 +1,475 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>BasIQA | UDESC</title>
+            </f:facet>
+            <style>
+                .ui-widget, .ui-widget .ui-widget {
+                    font-size: 90% !important;
+                }
+                .ui-tabs, .ui-tabs-nav li  {
+                    font-size:80% !important;
+                }
+            </style>
+            <script type="text/javascript" src="#{facesContext.externalContext.requestContextPath}/resources/js/pt_locale.js"></script>
+            <script type="text/javascript" src="#{facesContext.externalContext.requestContextPath}/resources/js/util.js"></script>
+            <link href="#{facesContext.externalContext.requestContextPath}/resources/css/estilo.css" rel="stylesheet" type="text/css"/>
+            <link rel="shorcut icon" href="resources/img/icon.png" type="image/x-icon"/>
+        </h:head>
+
+        <h:body>
+            <div id="pagina">
+                <p:growl id="messages"
+                         autoUpdate="true"/>
+
+                <p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false" resizable="false">  
+                    <p:graphicImage value="resources/img/ajaxloadingbar.gif" />  
+                </p:dialog>
+
+                <div id="cabecalho">
+                    <p:graphicImage value="resources/img/logo.png"
+                                    width="400"/>
+                </div>
+                <p:panel id="centro">
+                    <h:form style="margin-left: auto;
+                            margin-right: auto;">
+                        <center>
+                            <h:panelGrid id="panel_inputs"
+                                         columns="3"
+                                         cellspacing="5">
+                                
+                                <p:outputPanel style="text-align: center;">
+                                    <h:outputText value="Parâmetro"
+                                                  style="font-weight: bolder; font-size: 15px"/>
+                                </p:outputPanel>
+                                <p:outputPanel style="text-align: center; ">
+                                    <h:outputText value="Valor"
+                                                  style="font-weight: bolder;  font-size: 16px"/>
+                                </p:outputPanel>
+                                <p:outputPanel style="text-align: center">
+                                    <h:outputText value="Peso"
+                                                  style="font-weight: bolder;  font-size: 16px"/>
+                                </p:outputPanel>
+                                
+                                <h:outputText value="Coliformes Fecais (NMP/100mL)"/>
+                                <p:inputText value="#{basIQABean.iqa.coliformes}"
+                                             size="5"
+                                             required="true"
+                                             requiredMessage="campo Coliformes Fecais obrigatório"
+                                             validatorMessage="campo Coliformes Fecais inválido. Informe um valor entre 1 e 100000"
+                                             maxlength="8"
+                                             styleClass="input_iqa"
+                                             tabindex="1"
+                                             onkeypress="return notDot(event)">
+                                    <!--<f:convertNumber type="number"/>-->
+                                </p:inputText>
+                                <p:spinner value="#{basIQABean.iqa.peso_coliformes}"
+                                           min="0"
+                                           max="1"
+                                           stepFactor="0.01"
+                                           size="5"
+                                           required="true"
+                                           maxlength="6"
+                                           styleClass="input_iqa"/>
+
+                                <h:outputText value="pH (unidades de pH)"/>
+                                <p:inputText value="#{basIQABean.iqa.ph}"
+                                             size="5"
+                                             required="true"
+                                             requiredMessage="campo pH obrigatório"
+                                             validatorMessage="campo pH inválido. Informe um valor entre 2.0 e 12.0"
+                                             maxlength="6"
+                                             tabindex="2"
+                                             styleClass="input_iqa">
+                                    <!--<f:convertNumber type="number"/>-->
+                                    <!--                                    <f:validateDoubleRange maximum="12.0"
+                                                                                               minimum="2.0"/>-->
+                                </p:inputText>
+                                <p:spinner value="#{basIQABean.iqa.peso_ph}"
+                                           min="0"
+                                           max="1"
+                                           stepFactor="0.01"
+                                           size="5"
+                                           required="true"
+                                           maxlength="6"
+                                           styleClass="input_iqa"/>
+
+
+                                <h:outputText value="DBO (mg/L)"/>
+                                <p:inputText value="#{basIQABean.iqa.dbo}"
+                                             size="5"
+                                             required="true"
+                                             requiredMessage="campo DBO obrigatório"
+                                             validatorMessage="campo DBO inválido. Informe um valor entre 0 e 50.0"
+                                             maxlength="6"
+                                             tabindex="3"
+                                             styleClass="input_iqa">
+                                    <!--<f:convertNumber type="number"/>-->
+                                    <!--                                    <f:validateDoubleRange maximum="50.0"
+                                                                                               minimum="0.0"/>-->
+                                </p:inputText>
+                                <p:spinner value="#{basIQABean.iqa.peso_dbo}"
+                                           min="0"
+                                           max="1"
+                                           stepFactor="0.01"
+                                           size="5"
+                                           required="true"
+                                           maxlength="6"
+                                           styleClass="input_iqa"/>
+
+
+                                <h:outputText value="Nitrogênio Total (mg/L)"/>
+                                <p:inputText value="#{basIQABean.iqa.nitrogenioTotal}"
+                                             size="5"
+                                             required="true"
+                                             requiredMessage="campo Nitrogênio Total obrigatório"
+                                             validatorMessage="campo Nitrogênio Total inválido. Informe um valor entre 0.1 e 100.0"
+                                             maxlength="6"
+                                             tabindex="4"
+                                             styleClass="input_iqa">
+                                    <!--<f:convertNumber type="number"/>-->
+                                    <!--                                    <f:validateDoubleRange maximum="100.0"
+                                                                                               minimum="0.1"/>-->
+                                </p:inputText>
+                                <p:spinner value="#{basIQABean.iqa.peso_nitrogenioTotal}"
+                                           min="0"
+                                           max="1"
+                                           stepFactor="0.01"
+                                           size="5"
+                                           required="true"
+                                           maxlength="6"
+                                           styleClass="input_iqa"/>
+
+                                <h:outputText value="Fósforo Total (mg/L)"/>
+                                <p:inputText value="#{basIQABean.iqa.fosforoTotal}"
+                                             size="5"
+                                             required="true"
+                                             requiredMessage="campo Fósforo Total obrigatório"
+                                             validatorMessage="campo Fósforo Total inválido. Informe um valor entre 0 e 10.0"
+                                             maxlength="6"
+                                             tabindex="5"
+                                             styleClass="input_iqa">
+                                    <!--<f:convertNumber type="number"/>-->
+                                    <!--                                    <f:validateDoubleRange maximum="10.0"
+                                                                                               minimum="0.0"/>-->
+                                </p:inputText>
+                                <p:spinner value="#{basIQABean.iqa.peso_fosforoTotal}"
+                                           min="0"
+                                           max="1"
+                                           stepFactor="0.01"
+                                           size="5"
+                                           required="true"
+                                           maxlength="6"
+                                           styleClass="input_iqa"/>
+
+                                <h:outputText value="Variação de Temperatura  (°C)"/>
+                                <p:inputText value="#{basIQABean.iqa.variacaoTemperatura}"
+                                             size="5"
+                                             required="true"
+                                             requiredMessage="campo Variação de Temperatura obrigatório"
+                                             validatorMessage="campo Variação de Temperatura inválido. Informe um valor entre -5.0 e 15.0"
+                                             maxlength="6"
+                                             tabindex="6"
+                                             styleClass="input_iqa">
+                                    <!--<f:convertNumber type="number"/>-->
+                                    <!--                                    <f:validateDoubleRange maximum="15.0"
+                                                                                               minimum="-5.0"/>-->
+                                </p:inputText>
+                                <p:spinner value="#{basIQABean.iqa.peso_variacaoTemperatura}"
+                                           min="0"
+                                           max="1"
+                                           stepFactor="0.01"
+                                           size="5"
+                                           required="true"
+                                           maxlength="6"
+                                           styleClass="input_iqa"/>
+
+                                <h:outputText value="Turbidez (UNT)"/>
+                                <p:inputText value="#{basIQABean.iqa.turbidez}"
+                                             size="5"
+                                             required="true"
+                                             requiredMessage="campo Turbidez obrigatório"
+                                             validatorMessage="campo Turbidez inválido. Informe um valor entre 0 e 100.0"
+                                             maxlength="6"
+                                             tabindex="7"
+                                             styleClass="input_iqa">
+                                    <!--<f:convertNumber type="number"/>-->
+                                    <!--                                    <f:validateDoubleRange maximum="100.0"
+                                                                                               minimum="0.0"/>-->
+                                </p:inputText>
+                                <p:spinner value="#{basIQABean.iqa.peso_turbidez}"
+                                           min="0"
+                                           max="1"
+                                           stepFactor="0.01"
+                                           size="5"
+                                           required="true"
+                                           maxlength="6"
+                                           styleClass="input_iqa"/>
+
+                                <h:outputText value="OD (% saturação)"/>
+                                <p:inputText value="#{basIQABean.iqa.od}"
+                                             size="5"
+                                             required="true"
+                                             requiredMessage="campo Oxigênio Dissolvido obrigatório"
+                                             validatorMessage="campo Oxigênio Dissolvido inválido. Informe um valor entre 0 e 140.0"
+                                             maxlength="6"
+                                             tabindex="8"
+                                             styleClass="input_iqa">
+                                    <!--<f:convertNumber type="number"/>-->
+                                    <!--                                    <f:validateDoubleRange maximum="140.0"
+                                                                                               minimum="0.0"/>-->
+                                </p:inputText>
+                                <p:spinner value="#{basIQABean.iqa.peso_od}"
+                                           min="0"
+                                           max="1"
+                                           stepFactor="0.01"
+                                           size="5"
+                                           required="true"
+                                           maxlength="6"
+                                           styleClass="input_iqa"/>
+
+
+
+                                <h:outputText value="Sólidos Totais (mg/L)"/>
+                                <p:inputText value="#{basIQABean.iqa.solidosTotais}"
+                                             size="5"
+                                             required="true"
+                                             requiredMessage="campo Sólidos Totais obrigatório"
+                                             validatorMessage="campo Sólidos Totais inválido. Informe um valor entre 0 e 500.0"
+                                             maxlength="6"
+                                             tabindex="9"
+                                             styleClass="input_iqa">
+                                    <!--<f:convertNumber type="number"/>-->
+                                    <!--                                    <f:validateDoubleRange maximum="500.0"
+                                                                                               minimum="0.0"/>-->
+                                </p:inputText>
+                                <p:spinner value="#{basIQABean.iqa.peso_solidosTotais}"
+                                           min="0"
+                                           max="1"
+                                           stepFactor="0.01"
+                                           size="5"
+                                           required="true"
+                                           maxlength="6"/>
+
+
+                            </h:panelGrid>
+                        </center>
+                        <p:separator/>
+                        <center>
+                            <h:panelGrid id="panel_results"
+                                         columns="2"
+                                         style="text-align: center;"
+                                         cellspacing="10">
+                                <h:outputText value="IQA"
+                                              style="font-weight: bolder;"/>
+                                <p:inputText value="#{basIQABean.iqa.resultado}"
+                                             style="font-weight: bolder; text-align: center;"
+                                             readonly="true"
+                                             size="10">
+<!--                                    <f:convertNumber type="number"
+                                                     maxFractionDigits="2"/>-->
+                                </p:inputText>
+                                <h:outputText value="Nível de Qualidade"
+                                              style="font-weight: bolder;"/>
+                                <p:inputText value="#{basIQABean.iqa.nivel.nome}"
+                                             style="font-weight: bolder;
+                                             text-align: center;"
+                                             readonly="true"
+                                             size="10"/>
+                            </h:panelGrid>
+                        </center>
+                        <p:separator/>
+                        <h:panelGrid columns="4">
+                            <p:commandButton value="Calcular"
+                                             ajax="true"
+                                             update="panel_results btn_relatorio"
+                                             actionListener="#{basIQABean.calcular()}"
+                                             styleClass="button"/>
+
+                            <p:commandButton value="Limpar"
+                                             ajax="true"
+                                             immediate="true"
+                                             update="panel_results panel_inputs btn_relatorio"
+                                             actionListener="#{basIQABean.novo()}"
+                                             styleClass="button">
+                                <p:resetInput target="panel_results panel_inputs"/>
+                            </p:commandButton>
+
+                            <p:commandButton value="Relatório"
+                                             id="btn_relatorio"
+                                             styleClass="button"
+                                             onstart="dlg_results.show();"
+                                             disabled="#{basIQABean.iqa.resultado==null}"/>
+
+                            <p:commandButton value="Sobre"
+                                             styleClass="button"
+                                             immediate="true"
+                                             onstart="dlg_about.show();"/>
+                        </h:panelGrid>
+                    </h:form>
+                </p:panel>
+                <p:dialog
+                    visible="false"
+                    widgetVar="dlg_results"
+                    header="Dados do Relatório"
+                    modal="true"
+                    resizable="false"
+                    closable="false"
+                    hideEffect="scale"
+                    showEffect="fade">
+                    <h:form target="_blank">
+                        <p:panelGrid columns="2"
+                                     style="text-align: left;">
+                            <h:outputText value="Instituição Requerente"/>
+                            <p:inputText  value="#{basIQABean.iqauc.instituicao}"
+                                          size="50"
+                                          maxlength="88"/>
+
+                            <h:outputText value="Responsável"/>
+                            <p:inputText value="#{basIQABean.iqauc.responsavel}"
+                                         size="50"
+                                         maxlength="97"/>
+
+                            <h:outputText value="Número de Descrição da Amostra"/>
+                            <p:inputText value="#{basIQABean.iqauc.numero_amostra}"
+                                         size="50"
+                                         maxlength="20"/>
+
+
+                            <h:outputText value="Tipo de Amostra"/>
+                            <p:selectOneMenu value="#{basIQABean.iqauc.tipo_amostra}"
+                                             style="width: 326px;">
+                                <f:selectItem itemValue="Simples"
+                                              itemLabel="Simples"/>
+                                <f:selectItem itemValue="Composta"
+                                              itemLabel="Composta"/>
+                                <f:selectItem itemValue="Integrada"
+                                              itemLabel="Integrada"/>
+                            </p:selectOneMenu>
+
+                            <h:outputText value="Data da Coleta"/>
+                            <p:calendar value="#{basIQABean.iqauc.data}"
+                                        navigator="true"
+                                        pattern="MM/dd/yyyy HH:mm"
+                                        locale="pt"
+                                        readonlyInput="true"
+                                        size="30"/>
+
+                            <h:outputText value="Ponto de Amostragem"/>
+                            <p:inputText value="#{basIQABean.iqauc.ponto_amostragem}"
+                                         size="50"
+                                         maxlength="34"/>
+
+
+                            <h:outputText value="Natureza da Amostra"/>
+                            <p:inputText value="#{basIQABean.iqauc.natureza_amostra}" 
+                                         size="50"
+                                         maxlength="26"/>
+
+
+                            <h:outputText value="Localização Geográfica"/>
+                            <p:inputMask value="#{basIQABean.iqauc.localizacao}"
+                                         mask="a 99º 99\' 99\'\' a 99º 99\' 99\'\'"
+                                         size="30"/>
+
+                            <h:outputText value="Observações"/>
+                            <p:panelGrid columns="1"
+                                         style="margin-left: -10px;">
+                                <p:inputTextarea value="#{basIQABean.iqauc.observacoes}"
+                                                 cols="60"
+                                                 rows="6"
+                                                 counter="counter2"
+                                                 counterTemplate="{0} caracteres restantes"
+                                                 maxlength="350"/>
+                                <h:outputText id="counter2"
+                                              style="font-size: 10px"/>
+                            </p:panelGrid>
+                        </p:panelGrid>
+                        <p:separator/>
+                        <center>
+                            <p:panelGrid columns="2">
+                                <p:commandButton value="Gerar"
+                                                 actionListener="#{basIQABean.gerarRelatorio()}"
+                                                 ajax="false"
+                                                 styleClass="button"
+                                                 onsuccess="dlg_results.hide();"/>
+                                <p:commandButton value="Sair"
+                                                 onstart="dlg_results.hide();"
+                                                 styleClass="button"/>
+                            </p:panelGrid>
+                        </center>
+                    </h:form>
+                </p:dialog>
+                <p:dialog widgetVar="dlg_about"
+                          header="Sobre o BasIQA"
+                          visible="false"
+                          hideEffect="scale"
+                          showEffect="fade"
+                          closable="true"
+                          modal="true"
+                          resizable="false"
+                          width="600"
+                          style="text-align: left;"
+                          >
+                    <p:fieldset toggleable="true"
+                                legend="BasIQA">
+                        <div align="justify" >
+                            <h:outputText style=" text-align: justify;"
+                                          value="
+                                          Este trabalho baseia-se no IQA (Índice de Qualidade das Águas) – NSF,
+                                          desenvolvido para avaliar a qualidade da água bruta visando seu uso para 
+                                          abastecimento público. Os parâmetros utilizados no cálculo do IQA são em sua maioria, 
+                                          indicadores de contaminação causada pela ação antrópica, sendo eles: Oxigênio dissolvido, 
+                                          Coliformes fecais, pH, DBO, Nitrogênio total, Fosfato total, Temperatura, Turbidez e Sólidos totais."/>
+                            <br/>
+                            <br/>
+                            <h:outputText style="text-align: justify;"
+                                          value="
+                                          No intuito de tornar o calculo do IQA mais dinâmico, neste trabalho é realizado a reestruturação das 
+                                          equações que descrevem as curvas propostas nos gráficos de qualidade da CETESB."/>
+                        </div>
+                    </p:fieldset>
+                    <!--                    <p:fieldset toggleable="true"
+                                                    legend="Versão desktop"
+                                                    collapsed="true">
+                                            <h:panelGrid columns="2">
+                                                <h:outputText style="text-align: justify"
+                                                              value="Confira também o BasIQA para Desktop desenvolvido em plataforma Java."/>
+                                                <h:form>
+                                                    <p:commandButton id="downloadLink" 
+                                                                     value="Baixar" 
+                                                                     ajax="false"   
+                                                                     icon="ui-icon-arrowthichk-s"
+                                                                     inline="true"
+                                                                     onclick="PrimeFaces.monitorDownload(start(), stop());">  
+                                                        <p:fileDownload value="#{basIQABean.file}" />  
+                                                    </p:commandButton> 
+                                                </h:form>
+                                            </h:panelGrid>
+                                        </p:fieldset>-->
+                    <p:fieldset toggleable="true"
+                                legend="Desenvolvimento"
+                                collapsed="true"
+                                style="text-align: left">
+                        <div align="center">
+                            <h:outputText value="Desenvolvido pelo Departamento de Engenharia Sanitária da Universidade do Estado de Santa Catarina - UDESC"/>
+                            <br/>
+                            <h:outputText value="Bugs? Envie e-mail para: ricardo.grunitzki@gmail.com"/>
+                        </div>
+                    </p:fieldset>
+                </p:dialog>
+            </div>
+<!--            <br />
+            <h:link outcome="welcomePrimefaces" value="Primefaces welcome page" />-->
+        </h:body>
+    </f:view>
+</html>
+
